@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Romantic Diary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at top, #1f1f3a, #0f172a 70%);
+            color: #fff;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 50px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            position: relative;
+            z-index: 1000;
+        }
+
+        nav h2 {
+            color: #ff9ecf;
+            text-shadow: 0 0 15px #ff4da6;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        nav ul li {
+            cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        nav ul li:hover,
+        .active {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px #ff4da6;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 10001;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 25px rgba(255, 77, 166, 0.2);
+        }
+
+        h3 {
+            color: #ffb3d9;
+        }
+
+        textarea {
+            width: 100%;
+            height: 140px;
+            border-radius: 15px;
+            border: none;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 25px;
+            border-radius: 25px;
+            border: none;
+            background: linear-gradient(45deg, #ff4da6, #ff9ecf);
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            box-shadow: 0 0 25px #ff4da6;
+            transform: scale(1.06);
+        }
+
+        .entry {
+            margin-top: 15px;
+            padding: 18px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.07);
+            transition: 0.3s;
+            position: relative;
+            display: flex;
+            /* 🔥 layout fix */
+            flex-direction: column;
+            /* text upar, icons neeche */
+        }
+
+        .entry .text {
+            margin-bottom: 15px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            /* 🔥 add */
+        }
+
+        .entry:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 30px rgba(255, 77, 166, 0.6);
+        }
+
+        .entry .actions {
+            position: static;
+            /* 🔥 fix */
+            margin-top: 10px;
+            /* thoda gap */
+            display: flex;
+            gap: 10px;
+        }
+
+        .entry .actions {
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .edit {
+            background: linear-gradient(45deg, #6c63ff, #9a8cff);
+        }
+
+        .delete {
+            background: linear-gradient(45deg, #ff4d6d, #ff758f);
+        }
+
+        .fav {
+            background: linear-gradient(45deg, #ff4da6, #ff9ecf);
+        }
+
+        .date {
+            font-size: 12px;
+            color: #bbb;
+            margin-bottom: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        nav {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .menu-toggle {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+
+        .entry .actions {
+            gap: 12px;
+        }
+
+        textarea {
+            background: #fff;
+        }
+
+        /* 🔥 LEFT GAP FIX */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        /* 🔥 FULL WIDTH FIX */
+        body {
+            width: 100%;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* 🔥 NAV FIX */
+        nav {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* 🔥 CONTAINER FIX */
+        .container {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* MOBILE RESPONSIVE + NAVBAR */
+        @media(max-width:768px) {
+
+            nav {
+                padding: 15px 20px;
+            }
+
+            .menu-toggle {
+                display: block;
+                color: #fff;
+            }
+
+            nav ul {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: rgba(15, 23, 42, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 25px;
+                transition: 0.4s ease;
+                z-index: 9999;
+            }
+
+            nav ul.show {
+                left: 0;
+            }
+
+            nav ul li {
+                font-size: 20px;
+                padding: 12px 20px;
+            }
+
+            .container {
+                padding: 25px 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            textarea {
+                height: 110px;
+            }
+
+            .entry {
+                padding: 16px;
+            }
+
+            .entry .actions {
+                right: 10px;
+                bottom: 10px;
+            }
+        }
+
+        @media(max-width:480px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            nav ul li {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2>💖 My Diary</h2>
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <ul id="navMenu">
+            <li onclick="setFilter('all',this)" class="active">Home</li>
+            <li onclick="setFilter('thought',this)">Thoughts</li>
+            <li onclick="setFilter('memory',this)">Memories</li>
+            <li onclick="setFilter('love',this)">Love</li>
+            <li onclick="setFilter('fav',this)">Favorites</li>
+        </ul>
+    </nav>
+    <div style="text-align:center; margin-top:10px;">
+        <input id="roomCode" placeholder="Enter Room Code 💖"
+            style="padding:8px 15px;border-radius:20px;border:none;outline:none;">
+        <button onclick="joinRoom()">Join</button>
+    </div>
+
+    <div class="container">
+
+        <div class="card" id="writeCard">
+            <h3 id="writeTitle">✨ Write Your Thoughts</h3>
+            <textarea id="thought"></textarea>
+            <button onclick="saveEntry()">Save 💖</button>
+        </div>
+
+        <div class="card">
+            <h3 id="sectionTitle">All Entries ✨</h3>
+            <div id="entries"></div>
+        </div>
+
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        let currentFilter = 'all';
+        let editIndex = null;
+
+        // 🔥 GLOBAL WRITE TITLES (FIX)
+        const writeTitles = {
+            all: '✨ Write Your Thoughts',
+            thought: '✍️ Write a Thought',
+            memory: '🌸 Capture a Memory',
+            love: '💌 Write a Love Note'
+        };
+
+        // 🔥 Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBImccm0tq_7zJCijNTouziAaB54acPAdU",
+            authDomain: "personal-dairy-30faf.firebaseapp.com",
+            databaseURL: "https://personal-dairy-30faf-default-rtdb.firebaseio.com",
+            projectId: "personal-dairy-30faf",
+            storageBucket: "personal-dairy-30faf.firebasestorage.app",
+            messagingSenderId: "399557615110",
+            appId: "1:399557615110:web:1bc6bff674a59d275a2d87"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // 🔥 ROOM
+        let room = "default";
+        function joinRoom() {
+            let code = document.getElementById("roomCode").value.trim();
+            if (!code) return alert("Enter room code");
+
+            room = code;
+            document.getElementById("roomCode").value = "";
+
+            displayEntries();
+        }
+
+        // 🔥 CATEGORY
+        function getCurrentCategory() {
+            if (currentFilter === 'thought' || currentFilter === 'memory' || currentFilter === 'love') {
+                return currentFilter;
+            }
+            return 'thought';
+        }
+
+        // 🔥 SAVE / EDIT
+        function saveEntry() {
+            let text = document.getElementById('thought').value.trim();
+            let cat = getCurrentCategory();
+            if (!text) return alert('Write something');
+
+            db.ref("rooms/" + room).once("value", snap => {
+                let entries = snap.val() || [];
+
+                if (editIndex !== null) {
+                    entries[editIndex].text = text;
+                    entries[editIndex].category = cat;
+                    editIndex = null;
+                } else {
+                    entries.push({
+                        text,
+                        category: cat,
+                        fav: false,
+                        date: new Date().toLocaleString()
+                    });
+                }
+
+                db.ref("rooms/" + room).set(entries);
+
+                document.getElementById('thought').value = '';
+
+                // 🔥 FIX: dynamic title (section wise)
+                if (currentFilter !== 'fav') {
+                    document.getElementById('writeTitle').innerText =
+                        writeTitles[currentFilter] || writeTitles['all'];
+                }
+            });
+        }
+
+        // 🔥 DELETE
+        function deleteEntry(i) {
+            db.ref("rooms/" + room).once("value", snap => {
+                let entries = snap.val() || [];
+                entries.splice(i, 1);
+                db.ref("rooms/" + room).set(entries);
+            });
+        }
+
+        // 🔥 EDIT
+        function editEntry(i) {
+            db.ref("rooms/" + room).once("value", snap => {
+                let entries = snap.val() || [];
+                document.getElementById('thought').value = entries[i].text;
+                editIndex = i;
+
+                // 🔥 Editing indicator
+                document.getElementById('writeTitle').innerText = "✏️ Editing Entry...";
+                document.getElementById('writeCard').scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        // 🔥 FAV
+        function toggleFav(i) {
+            db.ref("rooms/" + room).once("value", snap => {
+                let entries = snap.val() || [];
+                entries[i].fav = !entries[i].fav;
+                db.ref("rooms/" + room).set(entries);
+            });
+        }
+
+        // 🔥 FILTER
+        function setFilter(f, el) {
+            currentFilter = f;
+
+            document.querySelectorAll('li').forEach(li => li.classList.remove('active'));
+            el.classList.add('active');
+
+            let titles = {
+                all: 'All Entries ✨',
+                thought: 'My Thoughts ✍️',
+                memory: 'My Memories 🌸',
+                love: 'Love Notes 💌',
+                fav: 'My Favorites 💖'
+            };
+
+            document.getElementById('sectionTitle').innerText = titles[f];
+
+            if (f === 'fav') {
+                document.getElementById('writeCard').classList.add('hidden');
+            } else {
+                document.getElementById('writeCard').classList.remove('hidden');
+
+                // 🔥 FIX: correct title on section change
+                document.getElementById('writeTitle').innerText =
+                    writeTitles[f] || writeTitles['all'];
+            }
+
+            displayEntries();
+        }
+
+        // 🔥 MENU
+        function toggleMenu() {
+            let menu = document.getElementById('navMenu');
+            menu.classList.toggle('show');
+            document.body.style.overflow =
+                menu.classList.contains('show') ? 'hidden' : 'auto';
+        }
+
+        document.querySelectorAll('#navMenu li').forEach(item => {
+            item.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('show');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // 🔥 DISPLAY (REALTIME)
+        function displayEntries() {
+            db.ref("rooms/" + room).off();
+
+            db.ref("rooms/" + room).on("value", snap => {
+                let entries = snap.val() || [];
+                let container = document.getElementById('entries');
+                container.innerHTML = '';
+
+                if (entries.length === 0) {
+                    container.innerHTML =
+                        "<p style='text-align:center;color:#aaa;'>No entries yet 💭</p>";
+                    return;
+                }
+
+                entries.forEach((e, i) => {
+
+                    if (currentFilter === 'fav' && !e.fav) return;
+                    if (currentFilter !== 'all' && currentFilter !== 'fav' && e.category !== currentFilter) return;
+
+                    let div = document.createElement('div');
+                    div.className = 'entry';
+
+                    div.innerHTML = `
+<div class='date'>${e.date}</div>
+<div class='text'>${e.text}</div>
+<div class='actions'>
+<button class='action-btn fav' onclick="toggleFav(${i})">
+<i class="${e.fav ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i>
+</button>
+<button class='action-btn edit' onclick="editEntry(${i})">
+<i class="fa-solid fa-pen"></i>
+</button>
+<button class='action-btn delete' onclick="deleteEntry(${i})">
+<i class="fa-solid fa-trash"></i>
+</button>
+</div>
+`;
+
+                    container.prepend(div);
+                });
+            });
+        }
+
+        window.onload = displayEntries;
+    </script>
+
+
+</body>
+
+</html>
